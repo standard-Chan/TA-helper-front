@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
-import AcademyList from "./AcademyList";
-import type { Academy } from "../../types/types";
-import AcademyFormModal from "./AcademyFormModal";
+import type { ClassType } from "../../types/types";
+import ClassTypeFormModal from "./ClassTypeFormModal";
+import ClassTypeList from "./ClassTypeList";
 
 interface Props {
   onClose: () => void;
@@ -42,7 +42,6 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  margin-top: 1rem;
   background-color: #007bff;
   color: white;
   padding: 0.5rem 1rem;
@@ -56,38 +55,35 @@ const StyledButton = styled.button`
   }
 `;
 
-export default function AcademyPopup({ onClose }: Props) {
-  const [editingAcademy, setEditingAcademy] = useState<Partial<Academy> | null>(
-    null
-  );
+export default function ClassTypePopup({ onClose }: Props) {
+  const [editing, setEditing] = useState<Partial<ClassType> | null>(null);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).id === "academy-overlay") {
+    if ((e.target as HTMLElement).id === "class-type-overlay") {
       onClose();
     }
   };
 
   return (
-    <Overlay id="academy-overlay" onClick={handleOverlayClick}>
+    <Overlay id="class-type-overlay" onClick={handleOverlayClick}>
       <PopupContainer>
-        <Title>📚 학원 목록</Title>
-        <AcademyList onEdit={setEditingAcademy} />
-
+        <Title>📘 수업 유형 목록</Title>
+        <ClassTypeList onEdit={setEditing} />
         <ButtonWrapper>
           <StyledButton
             onClick={() =>
-              setEditingAcademy({ name: "", address: "", tel: "" })
+              setEditing({ name: "", book: "", test: "", homework: "" })
             }
           >
-            + 학원 생성
+            + 수업 유형 생성
           </StyledButton>
         </ButtonWrapper>
       </PopupContainer>
 
-      {editingAcademy && (
-        <AcademyFormModal
-          initialData={editingAcademy}
-          onClose={() => setEditingAcademy(null)}
+      {editing && (
+        <ClassTypeFormModal
+          initialData={editing}
+          onClose={() => setEditing(null)}
         />
       )}
     </Overlay>

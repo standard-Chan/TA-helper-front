@@ -9,26 +9,31 @@ interface Props {
 
 const Card = styled.div`
   background: #f9f9f9;
-  padding: 1rem;
+  padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const TopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Title = styled.div`
   font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
 `;
 
 const Info = styled.div`
   font-size: 0.9rem;
   color: #555;
+  margin-top: 0.4rem;
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 0.5rem;
-  margin-top: 0.75rem;
 `;
 
 const EditButton = styled.button`
@@ -60,13 +65,15 @@ const DeleteButton = styled.button`
 export default function AcademyItem({ academy, onEdit, onDelete }: Props) {
   return (
     <Card>
-      <Title>{academy.name}</Title>
+      <TopRow>
+        <Title>{academy.name}</Title>
+        <ButtonGroup>
+          <EditButton onClick={() => onEdit(academy)}>수정</EditButton>
+          <DeleteButton onClick={() => onDelete(academy.id)}>삭제</DeleteButton>
+        </ButtonGroup>
+      </TopRow>
       <Info>주소: {academy.address}</Info>
       <Info>전화번호: {academy.tel}</Info>
-      <ButtonGroup>
-        <EditButton onClick={() => onEdit(academy)}>수정</EditButton>
-        <DeleteButton onClick={() => onDelete(academy.id)}>삭제</DeleteButton>
-      </ButtonGroup>
     </Card>
   );
 }

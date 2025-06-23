@@ -7,7 +7,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../const/api";
 import NoticePopup from "../components/NoticePopup";
-import AcademyPopup from "../components/Academy/AcademyPopup"; 
+import AcademyPopup from "../components/Academy/AcademyPopup";
+import ClassTypePopup from "../components/ClassType/ClassTypePopup"; 
+import type { Notice } from "../types/types"; 
 
 const Container = styled.div`
   padding: 1rem;
@@ -52,23 +54,13 @@ const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
-interface Notice {
-  id: number;
-  content: string;
-  classId: number;
-  createdAt: string;
-  weekNo: number;
-  academyName: string;
-  classTypeName: string;
-  days: string;
-}
-
 export default function MainPage() {
   const navigate = useNavigate();
   const [notices, setNotices] = useState<Notice[]>([]);
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [isCreateMode, setIsCreateMode] = useState(false);
-  const [isAcademyPopupOpen, setAcademyPopupOpen] = useState(false); // ⬅️ 추가
+  const [isAcademyPopupOpen, setAcademyPopupOpen] = useState(false);
+  const [isClassTypePopupOpen, setClassTypePopupOpen] = useState(false); // ⬅️ 추가
 
   const fetchNotices = async () => {
     try {
@@ -139,7 +131,7 @@ export default function MainPage() {
         <div>
           <CreateButton label="학생" onClick={() => navigate("/create/student")} />
           <CreateButton label="학원" onClick={() => setAcademyPopupOpen(true)} />
-          <CreateButton label="수업 유형" onClick={() => navigate("/create/class-type")} />
+          <CreateButton label="수업 유형" onClick={() => setClassTypePopupOpen(true)} />
           <CreateButton label="조교" onClick={() => navigate("/create/staff")} />
         </div>
       </Grid>
@@ -162,6 +154,10 @@ export default function MainPage() {
 
       {isAcademyPopupOpen && (
         <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />
+      )}
+
+      {isClassTypePopupOpen && (
+        <ClassTypePopup onClose={() => setClassTypePopupOpen(false)} />
       )}
     </Container>
   );
