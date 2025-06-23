@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../const/api";
 import NoticePopup from "../components/NoticePopup";
+import AcademyPopup from "../components/Academy/AcademyPopup"; 
 
 const Container = styled.div`
   padding: 1rem;
@@ -67,6 +68,7 @@ export default function MainPage() {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [isCreateMode, setIsCreateMode] = useState(false);
+  const [isAcademyPopupOpen, setAcademyPopupOpen] = useState(false); // ⬅️ 추가
 
   const fetchNotices = async () => {
     try {
@@ -136,7 +138,7 @@ export default function MainPage() {
         </div>
         <div>
           <CreateButton label="학생" onClick={() => navigate("/create/student")} />
-          <CreateButton label="학원" onClick={() => navigate("/create/academy")} />
+          <CreateButton label="학원" onClick={() => setAcademyPopupOpen(true)} />
           <CreateButton label="수업 유형" onClick={() => navigate("/create/class-type")} />
           <CreateButton label="조교" onClick={() => navigate("/create/staff")} />
         </div>
@@ -156,6 +158,10 @@ export default function MainPage() {
           onClose={() => setIsCreateMode(false)}
           onUpdated={fetchNotices}
         />
+      )}
+
+      {isAcademyPopupOpen && (
+        <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />
       )}
     </Container>
   );

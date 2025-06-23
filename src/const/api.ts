@@ -6,4 +6,5 @@ export const API = {
   NOTICES: `${BASE_URL}/api/notices`,
   NOTICE_DETAILS: `${BASE_URL}/api/notices/details`,
   CLASSES: `${BASE_URL}/api/classes`,
+  ACADEMY: `${BASE_URL}/api/academies`,
 };
