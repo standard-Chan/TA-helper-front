@@ -18,4 +18,6 @@ export const API = {
   STUDENTS: `${BASE_URL}/api/students`,
   // 조교
   STAFFS: `${BASE_URL}/api/staffs`,
+  STAFF_ROLE: `${BASE_URL}/api/staffs/me`,
+
 };

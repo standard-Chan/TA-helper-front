@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 import { API } from "../const/api";
 import NoticePopup from "../components/NoticePopup";
 import AcademyPopup from "../components/Academy/AcademyPopup";
-import ClassTypePopup from "../components/ClassType/ClassTypePopup"; 
-import type { Notice } from "../types/types"; 
+import ClassTypePopup from "../components/ClassType/ClassTypePopup";
+import StaffPopup from "../components/Staff/StaffPopup";
+import type { Notice, StaffRole } from "../types/types";
 
 const Container = styled.div`
   padding: 1rem;
@@ -60,7 +61,8 @@ export default function MainPage() {
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [isCreateMode, setIsCreateMode] = useState(false);
   const [isAcademyPopupOpen, setAcademyPopupOpen] = useState(false);
-  const [isClassTypePopupOpen, setClassTypePopupOpen] = useState(false); // ⬅️ 추가
+  const [isClassTypePopupOpen, setClassTypePopupOpen] = useState(false);
+  const [isStaffPopupOpen, setStaffPopupOpen] = useState(false);
 
   const fetchNotices = async () => {
     try {
@@ -83,6 +85,19 @@ export default function MainPage() {
     }
   };
 
+  const handleStaffClick = async () => {
+    try {
+      const res = await axios.get<StaffRole>(API.STAFF_ROLE, { withCredentials: true });
+      if (res.data.role !== "ADMIN") {
+        alert("관리자 권한이 있어야 조교를 관리할 수 있습니다.");
+        return;
+      }
+      setStaffPopupOpen(true);
+    } catch (err) {
+      alert("권한 확인에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
     fetchNotices();
   }, []);
@@ -101,10 +116,7 @@ export default function MainPage() {
           </div>
         ) : (
           [...notices]
-            .sort(
-              (a, b) =>
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            )
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             .map((notice) => (
               <NoticeCard
                 key={notice.id}
@@ -132,7 +144,7 @@ export default function MainPage() {
           <CreateButton label="학생" onClick={() => navigate("/create/student")} />
           <CreateButton label="학원" onClick={() => setAcademyPopupOpen(true)} />
           <CreateButton label="수업 유형" onClick={() => setClassTypePopupOpen(true)} />
-          <CreateButton label="조교" onClick={() => navigate("/create/staff")} />
+          <CreateButton label="조교" onClick={handleStaffClick} />
         </div>
       </Grid>
 
@@ -152,13 +164,9 @@ export default function MainPage() {
         />
       )}
 
-      {isAcademyPopupOpen && (
-        <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />
-      )}
-
-      {isClassTypePopupOpen && (
-        <ClassTypePopup onClose={() => setClassTypePopupOpen(false)} />
-      )}
+      {isAcademyPopupOpen && <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />}
+      {isClassTypePopupOpen && <ClassTypePopup onClose={() => setClassTypePopupOpen(false)} />}
+      {isStaffPopupOpen && <StaffPopup onClose={() => setStaffPopupOpen(false)} />}
     </Container>
   );
 }

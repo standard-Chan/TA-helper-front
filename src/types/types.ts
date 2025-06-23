@@ -23,3 +23,15 @@ export interface Notice {
   classTypeName: string;
   days: string;
 }
+
+export interface Staff {
+  id: number;
+  name: string;
+  userId: string;
+  phoneNumber: string;
+  role: 'ADMIN' | 'STAFF';
+}
+
+export interface Role {
+  role: 'ADMIN' | 'STAFF';
+}
