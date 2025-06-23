@@ -87,7 +87,7 @@ export default function AcademyPopup({ onClose }: Props) {
       {editingAcademy && (
         <AcademyFormModal
           initialData={editingAcademy}
-          onClose={() => setEditingAcademy(null)}
+          onCloseForm={() => setEditingAcademy(null)}
         />
       )}
     </Overlay>

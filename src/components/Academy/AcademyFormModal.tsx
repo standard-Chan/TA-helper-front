@@ -9,30 +9,58 @@ interface Props {
   onCloseForm: () => void;
 }
 
-const FormWrapper = styled.div`
+const Overlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  z-index: 9000;
+`;
+
+const FormWrapper = styled.div`
+  width: 480px;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+
+  &:hover {
+    color: #222;
+  }
 `;
 
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  margin-bottom: 1.25rem;
 `;
 
 const Label = styled.label`
   font-size: 0.95rem;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.4rem;
 `;
 
 const Input = styled.input`
-  padding: 0.6rem 0.8rem;
+  padding: 0.6rem 0.9rem;
   font-size: 0.95rem;
-  border-radius: 8px;
   border: 1px solid #ccc;
-  transition: border-color 0.2s;
+  border-radius: 8px;
 
   &:focus {
     outline: none;
@@ -43,32 +71,30 @@ const Input = styled.input`
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
 `;
 
-const SubmitButton = styled.button`
-  background-color: #007bff;
-  color: white;
-  padding: 0.6rem 1.2rem;
+const BaseButton = styled.button`
+  padding: 0.55rem 1.2rem;
+  font-size: 0.95rem;
   border: none;
   border-radius: 8px;
-  font-size: 0.95rem;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+`;
+
+const SubmitButton = styled(BaseButton)`
+  background-color: #007bff;
+  color: white;
 
   &:hover {
     background-color: #0056b3;
   }
 `;
 
-const CancelButton = styled.button`
+const CancelButton = styled(BaseButton)`
   background-color: #6c757d;
   color: white;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  cursor: pointer;
 
   &:hover {
     background-color: #5a6268;
@@ -107,44 +133,47 @@ export default function AcademyForm({ initialData, onCloseForm }: Props) {
   };
 
   return (
-    <FormWrapper>
-      <FormGroup>
-        <Label htmlFor="name">학원 이름</Label>
-        <Input
-          id="name"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="예: 메가스터디"
-        />
-      </FormGroup>
+    <Overlay onClick={onCloseForm}>
+      <FormWrapper onClick={(e) => e.stopPropagation()}>
 
-      <FormGroup>
-        <Label htmlFor="address">주소</Label>
-        <Input
-          id="address"
-          name="address"
-          value={form.address}
-          onChange={handleChange}
-          placeholder="서울특별시 ..."
-        />
-      </FormGroup>
+        <FormGroup>
+          <Label htmlFor="name">학원 이름</Label>
+          <Input
+            id="name"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="예: 메가스터디"
+          />
+        </FormGroup>
 
-      <FormGroup>
-        <Label htmlFor="tel">전화번호</Label>
-        <Input
-          id="tel"
-          name="tel"
-          value={form.tel}
-          onChange={handleChange}
-          placeholder="02-1234-5678"
-        />
-      </FormGroup>
+        <FormGroup>
+          <Label htmlFor="address">주소</Label>
+          <Input
+            id="address"
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            placeholder="서울특별시 ..."
+          />
+        </FormGroup>
 
-      <ButtonGroup>
-        <SubmitButton onClick={handleSubmit}>저장</SubmitButton>
-        <CancelButton onClick={onCloseForm}>취소</CancelButton>
-      </ButtonGroup>
-    </FormWrapper>
+        <FormGroup>
+          <Label htmlFor="tel">전화번호</Label>
+          <Input
+            id="tel"
+            name="tel"
+            value={form.tel}
+            onChange={handleChange}
+            placeholder="02-1234-5678"
+          />
+        </FormGroup>
+
+        <ButtonGroup>
+          <CancelButton onClick={onCloseForm}>취소</CancelButton>
+          <SubmitButton onClick={handleSubmit}>저장</SubmitButton>
+        </ButtonGroup>
+      </FormWrapper>
+    </Overlay>
   );
 }

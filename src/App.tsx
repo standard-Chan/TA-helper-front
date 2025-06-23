@@ -3,10 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RegularClassPage from "./pages/RegularClassPage";
 import ExtraClassPage from "./pages/ExtraClassPage";
-import StudentCreatePage from "./pages/StudentCreatePage";
-import AcademyCreatePage from "./pages/AcademyCreatePage";
-import ClassTypeCreatePage from "./pages/ClassTypeCreatePage";
-import StaffCreatePage from "./pages/StaffCreatePage";
+import StudentPage from "./pages/StudentPage";
 
 function App() {
   return (
@@ -16,10 +13,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/regular" element={<RegularClassPage />} />
         <Route path="/extra" element={<ExtraClassPage />} />
-        <Route path="/create/student" element={<StudentCreatePage />} />
-        <Route path="/create/academy" element={<AcademyCreatePage />} />
-        <Route path="/create/class-type" element={<ClassTypeCreatePage />} />
-        <Route path="/create/staff" element={<StaffCreatePage />} />
+        <Route path="/create/student" element={<StudentPage />} />
       </Routes>
     </BrowserRouter>
   );

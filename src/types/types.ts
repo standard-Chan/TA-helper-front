@@ -35,3 +35,14 @@ export interface Staff {
 export interface Role {
   role: 'ADMIN' | 'STAFF';
 }
+
+export interface Student {
+  id: number;
+  name: string;
+  classId: number;
+  school: string;
+  parentPhoneNumber: string;
+  phoneNumber: string;
+  email: string;
+  age: number;
+}
