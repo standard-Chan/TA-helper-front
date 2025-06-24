@@ -88,7 +88,7 @@ export default function StudentPage() {
         <Title>👨‍🎓 학생 목록</Title>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <Button onClick={() => setEditing({})}>+ 학생 등록</Button>
-          <Button onClick={() => navigate("/main")}>🏠 홈으로</Button>
+          <Button onClick={() => navigate("/main")}>🏠 메인으로</Button>
         </div>
       </Header>
 

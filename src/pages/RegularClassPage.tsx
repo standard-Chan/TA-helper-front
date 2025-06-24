@@ -7,7 +7,7 @@ import RegularClassCard from "../components/RegularClass/RegularClassCard";
 import RegularClassPopup from "../components/RegularClass/RegularClassPopup";
 import { useNavigate } from "react-router-dom";
 import type { RegularClass } from "../types/types";
-import WeeklySelectorPopup from "../components/WeeklyRecord/WeeklySelectorPoopup";
+import WeeklySelectorPopup from "../components/WeeklyRecord/WeeklySelectorPopup";
 
 const Container = styled.div`
   padding: 2rem;
@@ -86,7 +86,7 @@ export default function RegularClassPage() {
         <ActionButton onClick={() => setIsCreateMode(true)}>
           + 정규수업 추가
         </ActionButton>
-        <ActionButton onClick={() => navigate("/")}>🏠 홈으로</ActionButton>
+        <ActionButton onClick={() => navigate("/main")}>🏠 메인으로</ActionButton>
       </ButtonRow>
 
       <CardGrid>
