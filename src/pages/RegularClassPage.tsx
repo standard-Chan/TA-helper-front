@@ -6,6 +6,8 @@ import { API } from "../const/api";
 import RegularClassCard from "../components/RegularClass/RegularClassCard";
 import RegularClassPopup from "../components/RegularClass/RegularClassPopup";
 import { useNavigate } from "react-router-dom";
+import type { RegularClass } from "../types/types";
+import WeeklySelectorPopup from "../components/WeeklyRecord/WeeklySelectorPoopup";
 
 const Container = styled.div`
   padding: 2rem;
@@ -45,9 +47,12 @@ const CardGrid = styled.div`
 `;
 
 export default function RegularClassPage() {
-  const [classes, setClasses] = useState<Class[]>([]);
-  const [popupClass, setPopupClass] = useState<Class | null>(null); // 수정용
+  const [classes, setClasses] = useState<RegularClass[]>([]);
+  const [popupClass, setPopupClass] = useState<RegularClass | null>(null);
   const [isCreateMode, setIsCreateMode] = useState(false);
+  const [selectedClassIdForWeeks, setSelectedClassIdForWeeks] = useState<
+    number | null
+  >(null);
   const navigate = useNavigate();
 
   const fetchClasses = async () => {
@@ -78,7 +83,9 @@ export default function RegularClassPage() {
       <Title>📚 정규수업 목록</Title>
 
       <ButtonRow>
-        <ActionButton onClick={() => setIsCreateMode(true)}>+ 정규수업 추가</ActionButton>
+        <ActionButton onClick={() => setIsCreateMode(true)}>
+          + 정규수업 추가
+        </ActionButton>
         <ActionButton onClick={() => navigate("/")}>🏠 홈으로</ActionButton>
       </ButtonRow>
 
@@ -89,6 +96,7 @@ export default function RegularClassPage() {
             cls={cls}
             onEdit={() => setPopupClass(cls)}
             onDelete={() => handleDelete(cls.id)}
+            onClick={() => setSelectedClassIdForWeeks(cls.id)} // ✅ 카드 클릭 시 주차 팝업
           />
         ))}
       </CardGrid>
@@ -110,6 +118,13 @@ export default function RegularClassPage() {
             fetchClasses();
             setPopupClass(null);
           }}
+        />
+      )}
+
+      {selectedClassIdForWeeks !== null && (
+        <WeeklySelectorPopup
+          classId={selectedClassIdForWeeks}
+          onClose={() => setSelectedClassIdForWeeks(null)} // ✅ 팝업 외부 클릭 시 닫기
         />
       )}
     </Container>

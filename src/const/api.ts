@@ -19,6 +19,8 @@ export const API = {
   // 조교
   STAFFS: `${BASE_URL}/api/staffs`,
   STAFF_ROLE: `${BASE_URL}/api/staffs/me`,
+  // 주간 기록
+  WEEKLY_RECORDS: `${BASE_URL}/api/weekly-records`,
   
 };
 

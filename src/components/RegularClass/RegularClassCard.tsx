@@ -6,6 +6,7 @@ interface Props {
   cls: RegularClass;
   onEdit: () => void;
   onDelete: () => void;
+  onClick: () => void;
 }
 
 const Card = styled.div`
@@ -14,7 +15,16 @@ const Card = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f0f8ff;
+  }
 `;
+
 
 const Title = styled.h4`
   font-size: 1.1rem;
@@ -47,12 +57,13 @@ const IconBtn = styled.button`
   }
 `;
 
-export default function RegularClassCard({ cls, onEdit, onDelete }: Props) {
+
+export default function RegularClassCard({ cls, onEdit, onDelete, onClick }: Props) {
   return (
-    <Card>
+    <Card onClick={onClick}>
       <ButtonGroup>
-        <IconBtn onClick={onEdit}>✏️</IconBtn>
-        <IconBtn onClick={onDelete}>🗑️</IconBtn>
+        <IconBtn onClick={(e) => { e.stopPropagation(); onEdit(); }}>✏️</IconBtn>
+        <IconBtn onClick={(e) => { e.stopPropagation(); onDelete(); }}>🗑️</IconBtn>
       </ButtonGroup>
       <Title>{cls.academyName} - {cls.classTypeName}</Title>
       <Info>🗓️ {cls.days}</Info>
