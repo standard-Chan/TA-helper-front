@@ -1,39 +1,39 @@
 import styled from "styled-components";
-import NoticeCard from "../components/NoticeCard";
-import ShortcutButton from "../components/ShortcutButton";
-import CreateButton from "../components/CreateButton";
+import NoticeCard from "../components/Notice/NoticeCard";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../const/api";
-import NoticePopup from "../components/NoticePopup";
+import NoticePopup from "../components/Notice/NoticePopup";
 import AcademyPopup from "../components/Academy/AcademyPopup";
 import ClassTypePopup from "../components/ClassType/ClassTypePopup";
 import StaffPopup from "../components/Staff/StaffPopup";
-import type { Notice, StaffRole } from "../types/types";
+import type { Notice, Staff } from "../types/types";
 
 const Container = styled.div`
-  padding: 1rem;
+  padding: 2rem 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
 `;
 
 const Notices = styled.div`
   display: flex;
   gap: 1rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
   padding-bottom: 1rem;
 
   &::-webkit-scrollbar {
     height: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 10px;
@@ -48,11 +48,36 @@ const Notices = styled.div`
 
 const Divider = styled.hr`
   margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
 `;
 
-const Grid = styled.div`
+const SectionTitle = styled.h4`
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+`;
+
+const ButtonGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const StyledButton = styled.button<{ color?: string }>`
+  padding: 0.75rem;
+  background-color: ${(props) => props.color || "#6c757d"};
+  color: white;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #444;
+  }
 `;
 
 export default function MainPage() {
@@ -87,7 +112,9 @@ export default function MainPage() {
 
   const handleStaffClick = async () => {
     try {
-      const res = await axios.get<StaffRole>(API.STAFF_ROLE, { withCredentials: true });
+      const res = await axios.get<Staff>(API.STAFF_ROLE, {
+        withCredentials: true,
+      });
       if (res.data.role !== "ADMIN") {
         alert("관리자 권한이 있어야 조교를 관리할 수 있습니다.");
         return;
@@ -106,7 +133,9 @@ export default function MainPage() {
     <Container>
       <Header>
         <div>금주의 공지사항</div>
-        <button onClick={() => setIsCreateMode(true)}>+ 새 공지사항</button>
+        <StyledButton color="#007bff" onClick={() => setIsCreateMode(true)}>
+          + 새 공지사항
+        </StyledButton>
       </Header>
 
       <Notices>
@@ -116,7 +145,11 @@ export default function MainPage() {
           </div>
         ) : (
           [...notices]
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            )
             .map((notice) => (
               <NoticeCard
                 key={notice.id}
@@ -135,18 +168,39 @@ export default function MainPage() {
 
       <Divider />
 
-      <Grid>
-        <div>
-          <ShortcutButton label="정규수업" onClick={() => navigate("/regular")} />
-          <ShortcutButton label="보충수업" onClick={() => navigate("/extra")} />
-        </div>
-        <div>
-          <CreateButton label="학생" onClick={() => navigate("/create/student")} />
-          <CreateButton label="학원" onClick={() => setAcademyPopupOpen(true)} />
-          <CreateButton label="수업 유형" onClick={() => setClassTypePopupOpen(true)} />
-          <CreateButton label="조교" onClick={handleStaffClick} />
-        </div>
-      </Grid>
+      <SectionTitle>📌 바로가기</SectionTitle>
+      <ButtonGrid>
+        <StyledButton color="#17a2b8" onClick={() => navigate("/regular")}>
+          정규수업
+        </StyledButton>
+        <StyledButton color="#17a2b8" onClick={() => navigate("/extra")}>
+          보충수업
+        </StyledButton>
+      </ButtonGrid>
+
+      <Divider />
+      
+      <SectionTitle>📝 신규 등록</SectionTitle>
+      <ButtonGrid>
+        <StyledButton
+          color="#28a745"
+          onClick={() => navigate("/create/student")}
+        >
+          학생
+        </StyledButton>
+        <StyledButton color="#28a745" onClick={() => setAcademyPopupOpen(true)}>
+          학원
+        </StyledButton>
+        <StyledButton
+          color="#28a745"
+          onClick={() => setClassTypePopupOpen(true)}
+        >
+          수업 유형
+        </StyledButton>
+        <StyledButton color="#28a745" onClick={handleStaffClick}>
+          조교
+        </StyledButton>
+      </ButtonGrid>
 
       {selectedNotice && (
         <NoticePopup
@@ -164,9 +218,15 @@ export default function MainPage() {
         />
       )}
 
-      {isAcademyPopupOpen && <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />}
-      {isClassTypePopupOpen && <ClassTypePopup onClose={() => setClassTypePopupOpen(false)} />}
-      {isStaffPopupOpen && <StaffPopup onClose={() => setStaffPopupOpen(false)} />}
+      {isAcademyPopupOpen && (
+        <AcademyPopup onClose={() => setAcademyPopupOpen(false)} />
+      )}
+      {isClassTypePopupOpen && (
+        <ClassTypePopup onClose={() => setClassTypePopupOpen(false)} />
+      )}
+      {isStaffPopupOpen && (
+        <StaffPopup onClose={() => setStaffPopupOpen(false)} />
+      )}
     </Container>
   );
 }

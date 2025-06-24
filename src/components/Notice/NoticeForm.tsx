@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import ClassSelector from "./ClassSelector";
+import ClassSelector from "../ClassSelector";
 
 interface Props {
   initial?: {
@@ -76,7 +76,6 @@ export default function NoticeForm({ initial, onSubmit, submitLabel }: Props) {
       }}
     >
       <Field>
-        <Label>수업 선택</Label>
         <ClassSelector selectedId={classId} onSelect={setClassId} />
       </Field>
 

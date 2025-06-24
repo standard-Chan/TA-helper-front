@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { Student } from "../../types/types";
 import axios from "axios";
 import { API } from "../../const/api";
-import ClassSelectPopup from "../Class/ClassSecletPopup";
+import ClassSelectPopup from "../RegularClass/ClassSelectPopup";
 
 interface Props {
   initialData: Partial<Student>;

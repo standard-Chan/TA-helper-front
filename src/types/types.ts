@@ -46,3 +46,16 @@ export interface Student {
   email: string;
   age: number;
 }
+
+
+
+export interface RegularClass {
+  id: number;
+  academyId: number;
+  academyName: string;
+  classTypeId: number;
+  classTypeName: string;
+  days: string;
+  startTime: string;
+  endTime: string;
+}

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { API } from "../const/api";
-import ClassSelector from "./ClassSelector";
+import { API } from "../../const/api";
+import ClassSelector from "../ClassSelector";
 
 interface Props {
   notice: {
@@ -174,7 +174,6 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
         </Field>
 
         <Field>
-          <Label>수업 선택</Label>
           <ClassSelector
             selectedId={form.classId}
             onSelect={(id) => setForm({ ...form, classId: id })}
