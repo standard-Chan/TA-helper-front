@@ -8,6 +8,7 @@ import RegularClassPopup from "../components/RegularClass/RegularClassPopup";
 import { useNavigate } from "react-router-dom";
 import type { RegularClass } from "../types/types";
 import WeeklySelectorPopup from "../components/WeeklyRecord/WeeklySelectorPopup";
+import axiosInstance from "../util/axiosInstance";
 
 const Container = styled.div`
   padding: 2rem;
@@ -57,7 +58,7 @@ export default function RegularClassPage() {
 
   const fetchClasses = async () => {
     try {
-      const res = await axios.get(API.CLASSES, { withCredentials: true });
+      const res = await axiosInstance.get(API.CLASSES, { withCredentials: true });
       setClasses(res.data);
     } catch (err) {
       console.error("수업 목록 불러오기 실패", err);

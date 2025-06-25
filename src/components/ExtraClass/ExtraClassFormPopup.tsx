@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../const/api";
 import type { ExtraClass } from "../../types/types";
+import axiosInstance from "../../util/axiosInstance";
 
 interface Props {
   onClose: () => void;
@@ -79,12 +80,12 @@ function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
   const [staffs, setStaffs] = useState<Staff[]>([]);
 
   const fetchAcademies = async () => {
-    const res = await axios.get(API.ACADEMY, { withCredentials: true });
+    const res = await axiosInstance.get(API.ACADEMY, { withCredentials: true });
     setAcademies(res.data);
   };
 
   const fetchStaffs = async () => {
-    const res = await axios.get(API.STAFFS, { withCredentials: true });
+    const res = await axiosInstance.get(API.STAFFS, { withCredentials: true });
     setStaffs(res.data);
   };
 

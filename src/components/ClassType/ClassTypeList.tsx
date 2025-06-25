@@ -4,6 +4,7 @@ import { API } from "../../const/api";
 import type { ClassType } from "../../types/types";
 import ClassTypeItem from "./ClassTypeItem";
 import styled from "styled-components";
+import axiosInstance from "../../util/axiosInstance";
 
 
 interface Props {
@@ -22,7 +23,7 @@ export default function ClassTypeList({ onEdit }: Props) {
   const [items, setItems] = useState<ClassType[]>([]);
 
   const fetchList = async () => {
-    const res = await axios.get(API.CLASS_TYPE, { withCredentials: true });
+    const res = await axiosInstance.get(API.CLASS_TYPE, { withCredentials: true });
     setItems(res.data);
   };
 

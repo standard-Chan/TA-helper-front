@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../const/api";
 import type { Student } from "../types/types";
 import StudentFormModal from "../components/Student/StudentFormModal";
+import axiosInstance from "../util/axiosInstance";
 
 const Container = styled.div`
   padding: 2rem;
@@ -61,7 +62,7 @@ export default function StudentPage() {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get(API.STUDENTS, { withCredentials: true });
+      const res = await axiosInstance.get(API.STUDENTS, { withCredentials: true });
       setStudents(res.data);
     } catch (err) {
       alert("학생 정보 불러오기 실패");

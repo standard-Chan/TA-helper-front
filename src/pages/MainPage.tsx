@@ -113,7 +113,7 @@ export default function MainPage() {
 
   const handleStaffClick = async () => {
     try {
-      const res = await axios.get<Staff>(API.STAFF_ROLE, {
+      const res = await axiosInstance.get<Staff>(API.STAFF_ROLE, {
         withCredentials: true,
       });
       if (res.data.role !== "ADMIN") {

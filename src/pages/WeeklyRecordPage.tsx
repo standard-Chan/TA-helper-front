@@ -4,6 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { API } from "../const/api";
 import WeeklyRecordTable from "../components/WeeklyRecord/WeeklyRecordTable";
+import axiosInstance from "../util/axiosInstance";
 
 const Container = styled.div`
   padding: 2rem;
@@ -48,10 +49,10 @@ export default function WeeklyRecordPage() {
   const fetchRecords = async () => {
     try {
       const [recordRes, studentRes] = await Promise.all([
-        axios.get(`${API.WEEKLY_RECORDS}?class=${classId}&week=${weekNo}`, {
+        axiosInstance.get(`${API.WEEKLY_RECORDS}?class=${classId}&week=${weekNo}`, {
           withCredentials: true,
         }),
-        axios.get(`${API.STUDENTS}/class/${classId}`, {
+        axiosInstance.get(`${API.STUDENTS}/class/${classId}`, {
           withCredentials: true,
         }),
       ]);

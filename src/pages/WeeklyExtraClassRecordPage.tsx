@@ -4,6 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { API } from "../const/api";
 import WeeklyExtraClassRecordTable from "../components/WeeklyExtraClassRecord/WeeklyExtraClassRecordTable";
+import axiosInstance from "../util/axiosInstance";
 
 const Container = styled.div`
   padding: 2rem;
@@ -47,7 +48,7 @@ export default function WeeklyExtraClassRecordPage() {
 
   const fetchRecords = async () => {
     try {
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `${API.WEEKLY_EXTRA_RECORDS}?extraClass=${extraClassId}&week=${weekNo}`,
         { withCredentials: true }
       );

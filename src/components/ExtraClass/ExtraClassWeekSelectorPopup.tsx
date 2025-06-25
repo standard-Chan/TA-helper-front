@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../const/api";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../util/axiosInstance";
 
 const Overlay = styled.div`
   position: fixed;
@@ -104,7 +105,7 @@ export default function ExtraClassWeekSelectorPopup({ extraClassId, onClose }: P
   const [errorMsg, setErrorMsg] = useState("");
 
   const fetchWeeks = async () => {
-    const res = await axios.get(`${API.WEEKLY_EXTRA_RECORDS}/extraClass/${extraClassId}/week`, {
+    const res = await axiosInstance.get(`${API.WEEKLY_EXTRA_RECORDS}/extraClass/${extraClassId}/week`, {
       withCredentials: true,
     });
     setWeekList(res.data);

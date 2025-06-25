@@ -5,6 +5,7 @@ import type { Academy } from "../../types/types";
 
 import styled from "styled-components";
 import AcademyItem from "./AcademyItem";
+import axiosInstance from "../../util/axiosInstance";
 
 
 interface Props {
@@ -33,7 +34,7 @@ export default function AcademyList({ onEdit }: Props) {
   const [academies, setAcademies] = useState<Academy[]>([]);
 
   const fetchAcademies = async () => {
-    const res = await axios.get(API.ACADEMY, { withCredentials: true });
+    const res = await axiosInstance.get(API.ACADEMY, { withCredentials: true });
     setAcademies(res.data);
   };
 

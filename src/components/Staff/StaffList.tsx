@@ -4,6 +4,7 @@ import StaffItem from "./StaffItem";
 import { API } from "../../const/api";
 import type { Staff } from "../../types/types";
 import styled from "styled-components";
+import axiosInstance from "../../util/axiosInstance";
 
 const ListContainer = styled.div`
   max-height: 320px;
@@ -21,7 +22,7 @@ export default function StaffList({ onEdit }: Props) {
   const [list, setList] = useState<Staff[]>([]);
 
   const fetch = async () => {
-    const res = await axios.get(API.STAFFS, { withCredentials: true });
+    const res = await axiosInstance.get(API.STAFFS, { withCredentials: true });
     setList(res.data);
   };
 

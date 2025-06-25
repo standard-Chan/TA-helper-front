@@ -6,6 +6,7 @@ import type { ExtraClass } from "../types/types";
 import { API } from "../const/api";
 import ExtraClassCard from "../components/ExtraClass/ExtraClassCard";
 import ExtraClassFormPopup from "../components/ExtraClass/ExtraClassFormPopup";
+import axiosInstance from "../util/axiosInstance";
 
 // 요일 (한글 탭용 / API 필터용)
 const KOREAN_DAYS = ["월", "화", "수", "목", "금", "토", "일"];
@@ -90,7 +91,7 @@ function ExtraClassPage() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(API.EXTRA_CLASSES, { withCredentials: true });
+      const res = await axiosInstance.get(API.EXTRA_CLASSES, { withCredentials: true });
       setExtraClasses(res.data);
     } catch (e) {
       console.error("보충수업 조회 실패", e);
