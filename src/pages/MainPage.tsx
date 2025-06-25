@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import NoticeCard from "../components/Notice/NoticeCard";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../const/api";
 import NoticePopup from "../components/Notice/NoticePopup";
@@ -9,6 +8,8 @@ import AcademyPopup from "../components/Academy/AcademyPopup";
 import ClassTypePopup from "../components/ClassType/ClassTypePopup";
 import StaffPopup from "../components/Staff/StaffPopup";
 import type { Notice, Staff } from "../types/types";
+import axiosInstance from "../util/axiosInstance";
+
 
 const Container = styled.div`
   padding: 2rem 1.5rem;
@@ -91,7 +92,7 @@ export default function MainPage() {
 
   const fetchNotices = async () => {
     try {
-      const res = await axios.get(API.NOTICE_DETAILS, {
+      const res = await axiosInstance.get(API.NOTICE_DETAILS, {
         withCredentials: true,
       });
       setNotices(res.data);
