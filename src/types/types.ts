@@ -59,3 +59,14 @@ export interface RegularClass {
   startTime: string;
   endTime: string;
 }
+
+export interface ExtraClass {
+  id: number;
+  academyId: number;
+  academyName: string;
+  staffId: number;
+  staffName: string;
+  days: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+  startTime: string; // "HH:mm:ss"
+  endTime: string;
+}

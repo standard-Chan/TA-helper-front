@@ -19,7 +19,7 @@ const Popup = styled.div`
   padding: 2rem;
   border-radius: 12px;
   width: 400px;
-  position: relative; // ✅ 이거 추가
+  position: relative;
 `;
 
 const CloseButton = styled.button`
@@ -82,6 +82,14 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const Input = styled.input`
+  width: 100px;
+  padding: 0.4rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+`;
+
 interface Props {
   classId: number;
   onClose: () => void;
@@ -91,6 +99,9 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
   const navigate = useNavigate();
   const [weekList, setWeekList] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [newWeekNo, setNewWeekNo] = useState<number>(0);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchWeeks = async () => {
     const res = await axios.get(`${API.WEEKLY_RECORDS}/class/${classId}/week`, {
@@ -107,11 +118,19 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
     if (selected !== null) navigate(`/class/${classId}/week/${selected}`);
   };
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     const max = weekList.length > 0 ? Math.max(...weekList) : 0;
-    const nextWeek = max + 1;
-    // 생성 없이 바로 이동만 할 수도 있음
-    navigate(`/class/${classId}/week/${nextWeek}`);
+    setNewWeekNo(max + 1);
+    setCreating(true);
+    setErrorMsg("");
+  };
+
+  const handleConfirmCreate = () => {
+    if (weekList.includes(newWeekNo)) {
+      setErrorMsg(`${newWeekNo}주차는 이미 존재합니다.`);
+      return;
+    }
+    navigate(`/class/${classId}/week/${newWeekNo}`);
   };
 
   return (
@@ -140,12 +159,47 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
             ))
           )}
         </WeekList>
+
         <ButtonRow>
           <Button onClick={handleMove}>이동</Button>
-          <Button onClick={handleCreate} style={{ background: "#28a745" }}>
-            + 신규 주차
-          </Button>
+
+          {creating ? (
+            <>
+              <Input
+                type="text"
+                inputMode="numeric"
+                value={newWeekNo === 0 ? "" : newWeekNo.toString()}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  const parsed = Number(val);
+                  if (val === "") {
+                    setNewWeekNo(0); // 비워두면 0으로 간주
+                  } else if (!isNaN(parsed)) {
+                    setNewWeekNo(parsed);
+                  }
+                }}
+              />
+              <Button
+                onClick={handleConfirmCreate}
+                style={{ background: "#28a745" }}
+              >
+                생성
+              </Button>
+            </>
+          ) : (
+            <Button onClick={handleCreate} style={{ background: "#28a745" }}>
+              + 신규 주차
+            </Button>
+          )}
         </ButtonRow>
+
+        {errorMsg && (
+          <div
+            style={{ color: "red", marginTop: "0.5rem", fontSize: "0.9rem" }}
+          >
+            {errorMsg}
+          </div>
+        )}
       </Popup>
     </Overlay>
   );

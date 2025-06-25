@@ -21,6 +21,8 @@ export const API = {
   STAFF_ROLE: `${BASE_URL}/api/staffs/me`,
   // 주간 기록
   WEEKLY_RECORDS: `${BASE_URL}/api/weekly-records`,
+  // 보충 수업
+  EXTRA_CLASSES: `${BASE_URL}/api/extra-classes`,
   
 };
 

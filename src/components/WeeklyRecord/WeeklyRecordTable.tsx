@@ -1,12 +1,14 @@
-// components/WeeklyRecord/WeeklyRecordTable.tsx
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { API } from "../../const/api";
+import { useParams } from "react-router-dom";
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
-  table-layout: fixed; // ✅ 고정 폭 테이블
+  table-layout: fixed;
 `;
 
 const Th = styled.th`
@@ -20,7 +22,6 @@ const Td = styled.td`
   padding: 0.75rem;
   border: 1px solid #ddd;
   text-align: center;
-  cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -32,12 +33,12 @@ const Input = styled.input`
   font-size: 0.95rem;
   border: none;
   outline: none;
-  background-color: #f8f9fa; // 더 자연스러운 연회색
+  background-color: #f8f9fa;
   text-align: center;
   border-radius: 4px;
 
   &:focus {
-    background-color: #e9f2ff; // 포커스 시 은은한 블루
+    background-color: #e9f2ff;
   }
 `;
 
@@ -72,8 +73,6 @@ const Select = styled.select`
   }
 `;
 
-
-
 const SaveButton = styled.button`
   background: #007bff;
   color: white;
@@ -84,7 +83,8 @@ const SaveButton = styled.button`
   cursor: pointer;
 `;
 
-export default function WeeklyRecordTable({ records }: { records: any[] }) {
+export default function WeeklyRecordTable({ records, userId }: { records: any[]; userId: number }) {
+  const { classId, weekNo } = useParams();
   const [localRecords, setLocalRecords] = useState<any[]>([]);
 
   useEffect(() => {
@@ -97,9 +97,29 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
     setLocalRecords(updated);
   };
 
-  const handleSave = () => {
-    console.log("💾 저장된 값:", localRecords);
-    alert("수정한 데이터가 저장되었습니다 (프론트에서만 반영됨)");
+  const handleSave = async () => {
+    try {
+      const payload = localRecords.map((r) => ({
+        studentId: r.student.id,
+        classId: Number(classId),
+        weekNo: Number(weekNo),
+        attended: r.attended,
+        testScore: r.testScore,
+        homeworkScore: r.homeworkScore,
+        note: r.note,
+        createdById: userId,
+        updatedById: userId,
+      }));
+
+      await axios.post(`${API.WEEKLY_RECORDS}`, payload, {
+        withCredentials: true,
+      });
+
+      alert("저장 완료!");
+    } catch (err) {
+      console.error(err);
+      alert("저장 실패");
+    }
   };
 
   return (
@@ -121,7 +141,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
         </thead>
         <tbody>
           {localRecords.map((r, idx) => (
-            <tr key={r.id}>
+            <tr key={r.student.id}>
               <Td>{r.student.name}</Td>
               <Td>{r.student.school}</Td>
               <Td>{r.student.age}</Td>
@@ -143,9 +163,13 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
               <Td>
                 <Input
                   type="number"
-                  value={r.testScore}
+                  value={r.testScore === 0 ? "" : r.testScore}
                   onChange={(e) =>
-                    handleChange(idx, "testScore", Number(e.target.value))
+                    handleChange(
+                      idx,
+                      "testScore",
+                      e.target.value === "" ? 0 : Number(e.target.value)
+                    )
                   }
                 />
               </Td>
@@ -154,9 +178,13 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
               <Td>
                 <Input
                   type="number"
-                  value={r.homeworkScore}
+                  value={r.homeworkScore === 0 ? "" : r.homeworkScore}
                   onChange={(e) =>
-                    handleChange(idx, "homeworkScore", Number(e.target.value))
+                    handleChange(
+                      idx,
+                      "homeworkScore",
+                      e.target.value === "" ? 0 : Number(e.target.value)
+                    )
                   }
                 />
               </Td>
