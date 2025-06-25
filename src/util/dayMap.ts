@@ -1,4 +1,4 @@
-const dayMap: Record<string, string> = {
+export const dayMap: Record<string, string> = {
   MONDAY: "월",
   TUESDAY: "화",
   WEDNESDAY: "수",

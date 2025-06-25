@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../const/api";
 import { useParams } from "react-router-dom";
+import WeeklyExtraRecordPopup from "./WeeklyExtraRecordPopup";
 
 const Table = styled.table`
   width: 100%;
@@ -83,15 +84,20 @@ const SaveButton = styled.button`
   cursor: pointer;
 `;
 
-export default function WeeklyRecordTable({ records, userId }: { records: any[]; userId: number }) {
+export default function WeeklyRecordTable({ records }: { records: any[] }) {
   const { classId, weekNo } = useParams();
   const [localRecords, setLocalRecords] = useState<any[]>([]);
+  const [popupStudent, setPopupStudent] = useState<null | number>(null);
 
   useEffect(() => {
     setLocalRecords(records);
   }, [records]);
 
-  const handleChange = (idx: number, field: string, value: string | number | boolean) => {
+  const handleChange = (
+    idx: number,
+    field: string,
+    value: string | number | boolean
+  ) => {
     const updated = [...localRecords];
     updated[idx][field] = value;
     setLocalRecords(updated);
@@ -107,8 +113,6 @@ export default function WeeklyRecordTable({ records, userId }: { records: any[];
         testScore: r.testScore,
         homeworkScore: r.homeworkScore,
         note: r.note,
-        createdById: userId,
-        updatedById: userId,
       }));
 
       await axios.post(`${API.WEEKLY_RECORDS}`, payload, {
@@ -137,6 +141,7 @@ export default function WeeklyRecordTable({ records, userId }: { records: any[];
             <Th>시험 점수</Th>
             <Th>과제 점수</Th>
             <Th>비고</Th>
+            <Th>보충수업</Th>
           </tr>
         </thead>
         <tbody>
@@ -193,15 +198,38 @@ export default function WeeklyRecordTable({ records, userId }: { records: any[];
               <Td>
                 <Textarea
                   value={r.note}
-                  onChange={(e) =>
-                    handleChange(idx, "note", e.target.value)
-                  }
+                  onChange={(e) => handleChange(idx, "note", e.target.value)}
                 />
+              </Td>
+              {/* 보충수업 추가 버튼 */}
+              <Td>
+                <button
+                  style={{
+                    background: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "0.3rem 0.6rem",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setPopupStudent(r.student.id)}
+                >
+                  ➕ 추가
+                </button>
               </Td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {popupStudent && (
+        <WeeklyExtraRecordPopup
+          studentId={popupStudent}
+          extraClassId={Number(classId)} // 필요 시 따로 분리
+          weekNo={Number(weekNo)}
+          onClose={() => setPopupStudent(null)}
+          onSuccess={() => window.location.reload()} // 또는 fetchRecords()
+        />
+      )}
     </>
   );
 }

@@ -95,7 +95,7 @@ export default function WeeklyRecordPage() {
         <Title>📚 {weekNo}주차 수업 기록</Title>
         <NavButtons>
           <Button onClick={() => navigate(-1)}>← 이전 페이지</Button>
-          <Button onClick={() => navigate("/")}>🏠 메인으로</Button>
+          <Button onClick={() => navigate("/main")}>🏠 메인으로</Button>
         </NavButtons>
       </TitleRow>
 
