@@ -5,6 +5,7 @@ import RegularClassPage from "./pages/RegularClassPage";
 import ExtraClassPage from "./pages/ExtraClassPage";
 import StudentPage from "./pages/StudentPage";
 import WeeklyRecordPage from "./pages/WeeklyRecordPage";
+import WeeklyExtraClassRecordPage from "./pages/WeeklyExtraClassRecordPage";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/extra" element={<ExtraClassPage />} />
         <Route path="/create/student" element={<StudentPage />} />
         <Route path="/class/:classId/week/:weekNo" element={<WeeklyRecordPage />} />
+        <Route path="/extra-class/:extraClassId/week/:weekNo" element={<WeeklyExtraClassRecordPage />} />
+
       </Routes>
     </BrowserRouter>
   );

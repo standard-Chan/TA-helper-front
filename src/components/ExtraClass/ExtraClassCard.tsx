@@ -1,9 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../const/api";
 import type { ExtraClass } from "../../types/types";
-import { useState } from "react";
 import ExtraClassFormPopup from "./ExtraClassFormPopup";
+import ExtraClassWeekSelectorPopup from "./ExtraClassWeekSelectorPopup";
 
 interface Props {
   extraClass: ExtraClass;
@@ -18,10 +19,11 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 500px; 
+  max-width: 500px;
   width: 100%;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 `;
 
 const Info = styled.div`
@@ -49,6 +51,7 @@ const ActionButton = styled.button`
 
 function ExtraClassCard({ extraClass, onRefresh }: Props) {
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isWeekPopupOpen, setIsWeekPopupOpen] = useState(false);
 
   const handleDelete = async () => {
     await axios.delete(`${API.EXTRA_CLASSES}/${extraClass.id}`, { withCredentials: true });
@@ -57,22 +60,30 @@ function ExtraClassCard({ extraClass, onRefresh }: Props) {
 
   return (
     <>
-      <Card>
+      <Card onClick={() => setIsWeekPopupOpen(true)}>
         <Info>
           <span><b>학원:</b> {extraClass.academyName}</span>
           <span><b>조교:</b> {extraClass.staffName}</span>
           <span><b>시간:</b> {extraClass.startTime} ~ {extraClass.endTime}</span>
         </Info>
-        <Actions>
+        <Actions onClick={(e) => e.stopPropagation()}>
           <ActionButton onClick={() => setIsEditOpen(true)}>✏️</ActionButton>
           <ActionButton onClick={handleDelete}>❌</ActionButton>
         </Actions>
       </Card>
+
       {isEditOpen && (
         <ExtraClassFormPopup
           onClose={() => setIsEditOpen(false)}
           onRefresh={onRefresh}
           initialData={extraClass}
+        />
+      )}
+
+      {isWeekPopupOpen && (
+        <ExtraClassWeekSelectorPopup
+          extraClassId={extraClass.id}
+          onClose={() => setIsWeekPopupOpen(false)}
         />
       )}
     </>

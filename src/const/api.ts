@@ -23,6 +23,7 @@ export const API = {
   WEEKLY_RECORDS: `${BASE_URL}/api/weekly-records`,
   // 보충 수업
   EXTRA_CLASSES: `${BASE_URL}/api/extra-classes`,
-  
+  // 주간 보충수업 기록
+  WEEKLY_EXTRA_RECORDS: `${BASE_URL}/api/weekly-extra-records`,
 };
 
