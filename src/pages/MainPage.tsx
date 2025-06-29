@@ -11,7 +11,6 @@ import type { Notice, Staff } from "../types/types";
 import axiosInstance from "../util/axiosInstance";
 import axios from "axios";
 
-
 const Container = styled.div`
   padding: 2rem 1.5rem;
   max-width: 1000px;
@@ -103,11 +102,11 @@ export default function MainPage() {
   };
 
   // 자동 로그인
-    const handleLogin = async () => {
+  const handleLogin = async () => {
     try {
       const response = await axios.post(
         API.LOGIN,
-        { username : 'tjrcks', password: 'tjrcksdl' },
+        { username: "tjrcks", password: "tjrcksdl" },
         { withCredentials: true } // ✅ 쿠키 자동 저장
       );
 
@@ -119,7 +118,7 @@ export default function MainPage() {
       console.error(error);
     }
   };
-  
+
   const handleDelete = async (id: number) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     try {
@@ -146,8 +145,10 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    handleLogin();
-    fetchNotices();
+    (async () => {
+      await handleLogin(); // 자동 로그인 대기
+      fetchNotices();
+    })();
   }, []);
 
   return (
@@ -200,7 +201,7 @@ export default function MainPage() {
       </ButtonGrid>
 
       <Divider />
-      
+
       <SectionTitle>📝 신규 등록</SectionTitle>
       <ButtonGrid>
         <StyledButton
