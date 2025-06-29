@@ -55,15 +55,29 @@ const Td = styled.td`
   text-align: center;
 `;
 
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+`;
+
 export default function StudentPage() {
   const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
   const [editing, setEditing] = useState<Partial<Student> | null>(null);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchStudents = async () => {
+  const fetchStudents = async (pageNumber = 0) => {
     try {
-      const res = await axiosInstance.get(API.STUDENTS, { withCredentials: true });
-      setStudents(res.data);
+      const res = await axiosInstance.get(API.STUDENTS, {
+        params: { page: pageNumber, size: 20 },
+        withCredentials: true,
+      });
+      setStudents(res.data.content);
+      setPage(res.data.pageable.pageNumber);
+      setTotalPages(res.data.totalPages);
     } catch (err) {
       alert("학생 정보 불러오기 실패");
     }
@@ -73,14 +87,14 @@ export default function StudentPage() {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     try {
       await axios.delete(`${API.STUDENTS}/${id}`, { withCredentials: true });
-      fetchStudents();
+      fetchStudents(page);
     } catch (err) {
       alert("삭제 실패");
     }
   };
 
   useEffect(() => {
-    fetchStudents();
+    fetchStudents(0);
   }, []);
 
   return (
@@ -112,7 +126,7 @@ export default function StudentPage() {
             <tr key={student.id}>
               <Td>{student.id}</Td>
               <Td>{student.name}</Td>
-              <Td>{student.classId}</Td>
+              <Td>{[...student.classId].join(", ")}</Td>
               <Td>{student.school}</Td>
               <Td>{student.parentPhoneNumber}</Td>
               <Td>{student.phoneNumber}</Td>
@@ -120,7 +134,10 @@ export default function StudentPage() {
               <Td>{student.age}</Td>
               <Td>
                 <Button onClick={() => setEditing(student)}>수정</Button>{" "}
-                <Button onClick={() => handleDelete(student.id)} style={{ backgroundColor: "#dc3545" }}>
+                <Button
+                  onClick={() => handleDelete(student.id)}
+                  style={{ backgroundColor: "#dc3545" }}
+                >
                   삭제
                 </Button>
               </Td>
@@ -129,11 +146,21 @@ export default function StudentPage() {
         </tbody>
       </Table>
 
+      <Pagination>
+        <Button onClick={() => fetchStudents(page - 1)} disabled={page === 0}>
+          ◀ 이전
+        </Button>
+        <span>{page + 1} / {totalPages}</span>
+        <Button onClick={() => fetchStudents(page + 1)} disabled={page + 1 >= totalPages}>
+          다음 ▶
+        </Button>
+      </Pagination>
+
       {editing && (
         <StudentFormModal
           initialData={editing}
           onClose={() => setEditing(null)}
-          onUpdated={fetchStudents}
+          onUpdated={() => fetchStudents(page)}
         />
       )}
     </Container>

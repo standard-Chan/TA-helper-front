@@ -39,7 +39,7 @@ export interface Role {
 export interface Student {
   id: number;
   name: string;
-  classId: number;
+  classId: number[];
   school: string;
   parentPhoneNumber: string;
   phoneNumber: string;
