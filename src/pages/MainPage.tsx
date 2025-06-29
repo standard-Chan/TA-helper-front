@@ -146,10 +146,10 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    fetchNotices();
     handleLogin();
     navigate("/main")
     console.log("자동 로그인되었습니다.");
+    fetchNotices();
   }, []);
 
   return (
