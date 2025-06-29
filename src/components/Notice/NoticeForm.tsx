@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import ClassSelector from "../ClassSelector";
+import ClassSelector from "../WeeklyRecord/ClassSelector";
 
 interface Props {
   initial?: {

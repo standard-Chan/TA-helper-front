@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { API } from "../const/api";
+import { API } from "../../const/api";
 
 interface Props {
   selectedId: number;

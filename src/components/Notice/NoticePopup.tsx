@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../const/api";
-import ClassSelector from "../ClassSelector";
+import ClassSelector from "../WeeklyRecord/ClassSelector";
 
 interface Props {
   notice: {
