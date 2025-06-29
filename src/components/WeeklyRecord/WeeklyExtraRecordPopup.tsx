@@ -131,11 +131,11 @@ export default function WeeklyExtraRecordPopup({
 
   return (
     <Overlay onClick={onClose}>
-      <Popup onClick={(e) => e.stopPropagation()}>
+      <Popup onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <Title>➕ 보충수업 추가</Title>
 
         <Label>보충수업</Label>
-        <Select value={extraClassId ?? ""} onChange={(e) => setExtraClassId(Number(e.target.value))}>
+        <Select value={extraClassId ?? ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setExtraClassId(Number(e.target.value))}>
           <option value="">선택하세요</option>
           {extraClasses.map((c) => (
             <option key={c.id} value={c.id}>
@@ -148,14 +148,14 @@ export default function WeeklyExtraRecordPopup({
         <Input
           type="number"
           value={weekNo}
-          onChange={(e) => setWeekNo(Number(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWeekNo(Number(e.target.value))}
         />
 
         <Label>출석 시간</Label>
         <Input
           type="time"
           value={attendedTime}
-          onChange={(e) => setAttendedTime(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAttendedTime(e.target.value)}
         />
 
         <Label>사유</Label>
@@ -163,7 +163,7 @@ export default function WeeklyExtraRecordPopup({
           rows={3}
           placeholder="지각, 결석 등 메모"
           value={reason}
-          onChange={(e) => setReason(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setReason(e.target.value)}
         />
 
         <ButtonGroup>

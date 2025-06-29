@@ -68,25 +68,35 @@ interface Staff {
 function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
   const isEdit = !!initialData;
 
-  const [academyId, setAcademyId] = useState(initialData?.academyId || 0);
-  const [academyName, setAcademyName] = useState(initialData?.academyName || "");
-  const [staffId, setStaffId] = useState(initialData?.staffId || 0);
-  const [staffName, setStaffName] = useState(initialData?.staffName || "");
-  const [days, setDays] = useState(initialData?.days || "MONDAY");
-  const [startTime, setStartTime] = useState(initialData?.startTime || "18:00:00");
-  const [endTime, setEndTime] = useState(initialData?.endTime || "20:00:00");
+  const [academyId, setAcademyId] = useState<number>(initialData?.academyId ?? 0);
+  const [academyName, setAcademyName] = useState<string>(initialData?.academyName ?? "");
+  const [staffId, setStaffId] = useState<number>(initialData?.staffId ?? 0);
+  const [staffName, setStaffName] = useState<string>(initialData?.staffName ?? "");
+  const [days, setDays] = useState<string>(initialData?.days ?? "MONDAY");
+  const [startTime, setStartTime] = useState<string>(initialData?.startTime ?? "18:00:00");
+  const [endTime, setEndTime] = useState<string>(initialData?.endTime ?? "20:00:00");
 
   const [academies, setAcademies] = useState<Academy[]>([]);
   const [staffs, setStaffs] = useState<Staff[]>([]);
 
   const fetchAcademies = async () => {
-    const res = await axiosInstance.get(API.ACADEMY, { withCredentials: true });
-    setAcademies(res.data);
+    try {
+      const res = await axiosInstance.get(API.ACADEMY, { withCredentials: true });
+      setAcademies(res.data);
+    } catch (err) {
+      console.error("학원 목록 조회 실패", err);
+      console.log(academyName);
+    }
   };
 
   const fetchStaffs = async () => {
-    const res = await axiosInstance.get(API.STAFFS, { withCredentials: true });
-    setStaffs(res.data);
+    try {
+      const res = await axiosInstance.get(API.STAFFS, { withCredentials: true });
+      setStaffs(res.data);
+    } catch (err) {
+      console.error("조교 목록 조회 실패", err);
+      console.log(staffName);
+    }
   };
 
   useEffect(() => {
@@ -104,8 +114,8 @@ function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
     };
 
     try {
-      if (isEdit) {
-        await axios.put(`${API.EXTRA_CLASSES}/${initialData!.id}`, data, { withCredentials: true });
+      if (isEdit && initialData) {
+        await axios.put(`${API.EXTRA_CLASSES}/${initialData.id}`, data, { withCredentials: true });
       } else {
         await axios.post(API.EXTRA_CLASSES, data, { withCredentials: true });
       }
@@ -118,17 +128,17 @@ function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
 
   return (
     <Overlay onClick={onClose}>
-      <Popup onClick={(e) => e.stopPropagation()}>
+      <Popup onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <h3>{isEdit ? "보충수업 수정" : "보충수업 생성"}</h3>
 
         {/* 학원 선택 */}
         <SelectBox
           value={academyId}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const id = Number(e.target.value);
             const selected = academies.find((a) => a.id === id);
             setAcademyId(id);
-            setAcademyName(selected?.name || "");
+            setAcademyName(selected?.name ?? "");
           }}
         >
           <option value={0}>학원을 선택하세요</option>
@@ -142,11 +152,11 @@ function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
         {/* 조교 선택 */}
         <SelectBox
           value={staffId}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const id = Number(e.target.value);
             const selected = staffs.find((s) => s.id === id);
             setStaffId(id);
-            setStaffName(selected?.name || "");
+            setStaffName(selected?.name ?? "");
           }}
         >
           <option value={0}>조교를 선택하세요</option>
@@ -158,25 +168,26 @@ function ExtraClassFormPopup({ onClose, onRefresh, initialData }: Props) {
         </SelectBox>
 
         {/* 요일 선택 */}
-        <SelectBox value={days} onChange={(e) => setDays(e.target.value)}>
-          {["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"].map(
-            (d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            )
-          )}
+        <SelectBox
+          value={days}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDays(e.target.value)}
+        >
+          {["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"].map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
         </SelectBox>
 
         <Input
           type="time"
           value={startTime.slice(0, 5)}
-          onChange={(e) => setStartTime(e.target.value + ":00")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStartTime(e.target.value + ":00")}
         />
         <Input
           type="time"
           value={endTime.slice(0, 5)}
-          onChange={(e) => setEndTime(e.target.value + ":00")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndTime(e.target.value + ":00")}
         />
 
         <Button onClick={handleSubmit}>{isEdit ? "수정하기" : "생성하기"}</Button>

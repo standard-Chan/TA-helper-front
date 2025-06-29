@@ -155,7 +155,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
               <Td>
                 <Select
                   value={r.attended ? "✅" : "❌"}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     handleChange(idx, "attended", e.target.value === "✅")
                   }
                 >
@@ -169,7 +169,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
                 <Input
                   type="number"
                   value={r.testScore === 0 ? "" : r.testScore}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     handleChange(
                       idx,
                       "testScore",
@@ -184,7 +184,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
                 <Input
                   type="number"
                   value={r.homeworkScore === 0 ? "" : r.homeworkScore}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     handleChange(
                       idx,
                       "homeworkScore",
@@ -198,7 +198,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
               <Td>
                 <Textarea
                   value={r.note}
-                  onChange={(e) => handleChange(idx, "note", e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleChange(idx, "note", e.target.value)}
                 />
               </Td>
               {/* 보충수업 추가 버튼 */}
@@ -224,8 +224,8 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
       {popupStudent && (
         <WeeklyExtraRecordPopup
           studentId={popupStudent}
-          extraClassId={Number(classId)} // 필요 시 따로 분리
-          weekNo={Number(weekNo)}
+          // extraClassId={Number(classId)}
+          // weekNo={Number(weekNo)}
           onClose={() => setPopupStudent(null)}
           onSuccess={() => window.location.reload()} // 또는 fetchRecords()
         />

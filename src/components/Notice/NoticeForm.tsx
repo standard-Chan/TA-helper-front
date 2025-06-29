@@ -70,7 +70,7 @@ export default function NoticeForm({ initial, onSubmit, submitLabel }: Props) {
 
   return (
     <Form
-      onSubmit={(e) => {
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onSubmit({ classId, content, weekNo });
       }}
@@ -84,7 +84,7 @@ export default function NoticeForm({ initial, onSubmit, submitLabel }: Props) {
         <Input
           type="number"
           value={weekNo}
-          onChange={(e) => setWeekNo(Number(e.target.value))}
+          onChange={(e : React.ChangeEvent<HTMLSelectElement>) => setWeekNo(Number(e.target.value))}
           min={1}
         />
       </Field>
@@ -94,7 +94,7 @@ export default function NoticeForm({ initial, onSubmit, submitLabel }: Props) {
         <Textarea
           rows={5}
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setContent(e.target.value)}
         />
       </Field>
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
 import { API } from "../const/api";
 import WeeklyRecordTable from "../components/WeeklyRecord/WeeklyRecordTable";

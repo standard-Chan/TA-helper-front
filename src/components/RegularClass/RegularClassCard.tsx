@@ -62,8 +62,8 @@ export default function RegularClassCard({ cls, onEdit, onDelete, onClick }: Pro
   return (
     <Card onClick={onClick}>
       <ButtonGroup>
-        <IconBtn onClick={(e) => { e.stopPropagation(); onEdit(); }}>✏️</IconBtn>
-        <IconBtn onClick={(e) => { e.stopPropagation(); onDelete(); }}>🗑️</IconBtn>
+        <IconBtn onClick={(e: React.MouseEvent<HTMLDivElement>) => { e.stopPropagation(); onEdit(); }}>✏️</IconBtn>
+        <IconBtn onClick={(e: React.MouseEvent<HTMLDivElement>) => { e.stopPropagation(); onDelete(); }}>🗑️</IconBtn>
       </ButtonGroup>
       <Title>{cls.academyName} - {cls.classTypeName}</Title>
       <Info>🗓️ {cls.days}</Info>

@@ -82,7 +82,7 @@ export default function ClassSelectPopup({ onSelect, onClose }: Props) {
 
   return (
     <Overlay onClick={onClose}>
-      <Popup onClick={(e) => e.stopPropagation()}>
+      <Popup onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>&times;</CloseButton>
         <Title>📘 수업 목록</Title>
         {classes.length === 0 ? (

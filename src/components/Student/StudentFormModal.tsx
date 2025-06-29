@@ -110,7 +110,7 @@ export default function StudentFormModal({ initialData, onClose, onUpdated }: Pr
 
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <ModalContainer onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <Title>👨‍🎓 학생 정보 입력</Title>
         <FormGrid>
           <FormGroup>

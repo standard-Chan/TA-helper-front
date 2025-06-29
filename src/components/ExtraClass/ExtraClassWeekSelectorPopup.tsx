@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../const/api";
@@ -137,7 +136,7 @@ export default function ExtraClassWeekSelectorPopup({ extraClassId, onClose }: P
 
   return (
     <Overlay onClick={onClose}>
-      <Popup onClick={(e) => e.stopPropagation()}>
+      <Popup onClick={(e : React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>✖</CloseButton>
         <h3>📅 주차 선택</h3>
         <WeekList>
@@ -165,7 +164,7 @@ export default function ExtraClassWeekSelectorPopup({ extraClassId, onClose }: P
               <Input
                 type="number"
                 value={newWeekNo === 0 ? "" : newWeekNo.toString()}
-                onChange={(e) => setNewWeekNo(Number(e.target.value))}
+                onChange={(e : React.ChangeEvent<HTMLInputElement>) => setNewWeekNo(Number(e.target.value))}
               />
               <Button
                 onClick={handleConfirmCreate}

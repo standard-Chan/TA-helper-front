@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
 import { API } from "../../const/api";
-import type { Staff, Role } from "../../types/types";
+import type { Staff } from "../../types/types";
 
 interface Props {
   initialData: Partial<Staff>;
@@ -67,7 +67,7 @@ export default function StaffFormModal({ initialData, onClose }: Props) {
     userId: initialData.userId || "",
     password: "",
     phoneNumber: initialData.phoneNumber || "",
-    role: (initialData.role as Role) || "STAFF",
+    role: initialData.role || "STAFF",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

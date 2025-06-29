@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -136,7 +135,7 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
 
   return (
     <Overlay onClick={onClose}>
-      <Popup onClick={(e) => e.stopPropagation()}>
+      <Popup onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>✖</CloseButton>
         <h3>📅 주차 선택</h3>
         <WeekList>
@@ -170,7 +169,7 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
                 type="text"
                 inputMode="numeric"
                 value={newWeekNo === 0 ? "" : newWeekNo.toString()}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   const val = e.target.value;
                   const parsed = Number(val);
                   if (val === "") {

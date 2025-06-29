@@ -134,17 +134,6 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
     return () => document.removeEventListener("mousedown", handler);
   }, [onClose]);
 
-  const handleUpdate = async () => {
-    try {
-      await axios.put(`${API.NOTICES}/${notice.id}`, form, {
-        withCredentials: true,
-      });
-      onUpdated();
-      onClose();
-    } catch (err) {
-      alert("수정 실패");
-    }
-  };
   const isNew = notice.id === -1;
 
   return (
@@ -157,7 +146,7 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
           <Textarea
             rows={5}
             value={form.content}
-            onChange={(e) => setForm({ ...form, content: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm({ ...form, content: e.target.value })}
           />
         </Field>
 
@@ -167,7 +156,7 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
             type="number"
             value={form.weekNo}
             min={1}
-            onChange={(e) =>
+            onChange={(e : React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, weekNo: Number(e.target.value) })
             }
           />
@@ -199,7 +188,7 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
                 }
                 onUpdated();
                 onClose();
-              } catch (err) {
+              } catch (e) {
                 alert(isNew ? "생성 실패" : "수정 실패");
               }
             }}

@@ -9,6 +9,7 @@ import ClassTypePopup from "../components/ClassType/ClassTypePopup";
 import StaffPopup from "../components/Staff/StaffPopup";
 import type { Notice, Staff } from "../types/types";
 import axiosInstance from "../util/axiosInstance";
+import axios from "axios";
 
 
 const Container = styled.div`

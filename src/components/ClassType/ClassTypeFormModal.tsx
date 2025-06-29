@@ -29,7 +29,7 @@ const ModalBox = styled.div`
 export default function ClassTypeFormModal({ initialData, onClose }: Props) {
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalBox onClick={(e) => e.stopPropagation()}>
+      <ModalBox onClick={(e : React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
         <ClassTypeForm initialData={initialData} onCloseForm={onClose} />
       </ModalBox>
     </ModalOverlay>

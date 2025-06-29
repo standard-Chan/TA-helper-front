@@ -28,21 +28,6 @@ const FormWrapper = styled.div`
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #888;
-
-  &:hover {
-    color: #222;
-  }
-`;
-
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,7 +119,8 @@ export default function AcademyForm({ initialData, onCloseForm }: Props) {
 
   return (
     <Overlay onClick={onCloseForm}>
-      <FormWrapper onClick={(e) => e.stopPropagation()}>
+      <FormWrapper onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
+
 
         <FormGroup>
           <Label htmlFor="name">학원 이름</Label>

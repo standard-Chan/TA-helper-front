@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import type { ExtraClass } from "../types/types";
 import { API } from "../const/api";
 import ExtraClassCard from "../components/ExtraClass/ExtraClassCard";

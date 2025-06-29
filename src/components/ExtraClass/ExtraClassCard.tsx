@@ -66,7 +66,7 @@ function ExtraClassCard({ extraClass, onRefresh }: Props) {
           <span><b>조교:</b> {extraClass.staffName}</span>
           <span><b>시간:</b> {extraClass.startTime} ~ {extraClass.endTime}</span>
         </Info>
-        <Actions onClick={(e) => e.stopPropagation()}>
+        <Actions onClick={(e : React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
           <ActionButton onClick={() => setIsEditOpen(true)}>✏️</ActionButton>
           <ActionButton onClick={handleDelete}>❌</ActionButton>
         </Actions>
