@@ -93,7 +93,7 @@ export default function MainPage() {
 
   const fetchNotices = async () => {
     try {
-      const res = await axiosInstance.get(API.NOTICE_DETAILS, {
+      const res = await axios.get(API.NOTICE_DETAILS, {
         withCredentials: true,
       });
       setNotices(res.data);
@@ -102,6 +102,24 @@ export default function MainPage() {
     }
   };
 
+  // 자동 로그인
+    const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        API.LOGIN,
+        { username : 'tjrcks', password: 'tjrcksdl' },
+        { withCredentials: true } // ✅ 쿠키 자동 저장
+      );
+
+      if (response.status === 200) {
+        navigate("/main");
+      }
+    } catch (error) {
+      alert("로그인 실패! 아이디 또는 비밀번호를 확인해주세요.");
+      console.error(error);
+    }
+  };
+  
   const handleDelete = async (id: number) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     try {
@@ -129,6 +147,9 @@ export default function MainPage() {
 
   useEffect(() => {
     fetchNotices();
+    handleLogin();
+    navigate("/main")
+    console.log("자동 로그인되었습니다.");
   }, []);
 
   return (
