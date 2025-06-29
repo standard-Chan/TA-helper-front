@@ -169,7 +169,7 @@ export default function WeeklySelectorPopup({ classId, onClose }: Props) {
                 type="text"
                 inputMode="numeric"
                 value={newWeekNo === 0 ? "" : newWeekNo.toString()}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const val = e.target.value;
                   const parsed = Number(val);
                   if (val === "") {

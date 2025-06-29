@@ -49,7 +49,7 @@ export default function NoticeCard({
   return (
     <Card onClick={onClick}>
       <DeleteBtn
-        onClick={(e : React.MouseEvent<HTMLDivElement>) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           e.stopPropagation();
           onDelete?.();
         }}

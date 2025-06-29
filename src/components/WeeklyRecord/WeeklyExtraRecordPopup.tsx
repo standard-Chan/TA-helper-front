@@ -148,14 +148,14 @@ export default function WeeklyExtraRecordPopup({
         <Input
           type="number"
           value={weekNo}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWeekNo(Number(e.target.value))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWeekNo(Number(e.target.value))}
         />
 
         <Label>출석 시간</Label>
         <Input
           type="time"
           value={attendedTime}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAttendedTime(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAttendedTime(e.target.value)}
         />
 
         <Label>사유</Label>
@@ -163,7 +163,7 @@ export default function WeeklyExtraRecordPopup({
           rows={3}
           placeholder="지각, 결석 등 메모"
           value={reason}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setReason(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setReason(e.target.value)}
         />
 
         <ButtonGroup>

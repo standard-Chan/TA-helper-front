@@ -146,7 +146,7 @@ export default function NoticePopup({ notice, onClose, onUpdated }: Props) {
           <Textarea
             rows={5}
             value={form.content}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm({ ...form, content: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm({ ...form, content: e.target.value })}
           />
         </Field>
 

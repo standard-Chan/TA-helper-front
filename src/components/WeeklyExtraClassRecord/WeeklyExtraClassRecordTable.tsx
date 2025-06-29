@@ -165,7 +165,7 @@ export default function WeeklyExtraClassRecordTable({
                 <Input
                   type="time"
                   value={r.attendedTime?.slice(0, 5) || ""}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(idx, "attendedTime", e.target.value + ":00")
                   }
                 />
@@ -174,7 +174,7 @@ export default function WeeklyExtraClassRecordTable({
                 <Input
                   type="time"
                   value={r.exitTime?.slice(0, 5) || ""}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(idx, "exitTime", e.target.value + ":00")
                   }
                 />
@@ -183,7 +183,7 @@ export default function WeeklyExtraClassRecordTable({
                 <Input
                   type="number"
                   value={r.testScore || ""}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(idx, "testScore", Number(e.target.value))
                   }
                 />
@@ -191,7 +191,7 @@ export default function WeeklyExtraClassRecordTable({
               <Td>
                 <Textarea
                   value={r.reason || ""}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleChange(idx, "reason", e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(idx, "reason", e.target.value)}
                 />
               </Td>
             </tr>

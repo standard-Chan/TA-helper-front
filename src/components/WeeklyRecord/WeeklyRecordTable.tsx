@@ -169,7 +169,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
                 <Input
                   type="number"
                   value={r.testScore === 0 ? "" : r.testScore}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(
                       idx,
                       "testScore",
@@ -184,7 +184,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
                 <Input
                   type="number"
                   value={r.homeworkScore === 0 ? "" : r.homeworkScore}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(
                       idx,
                       "homeworkScore",
@@ -198,7 +198,7 @@ export default function WeeklyRecordTable({ records }: { records: any[] }) {
               <Td>
                 <Textarea
                   value={r.note}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleChange(idx, "note", e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(idx, "note", e.target.value)}
                 />
               </Td>
               {/* 보충수업 추가 버튼 */}
